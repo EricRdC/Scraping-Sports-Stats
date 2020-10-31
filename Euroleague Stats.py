@@ -24,9 +24,15 @@ for tr in body:
 FetchStats = pd.DataFrame(rowvalues,columns=head_column[0]) #Preparing DataFrame with stats
 TeamStats = FetchStats.drop(FetchStats.columns[0], axis = 1) #Removing Index
 TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']] = TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']].astype(float) #Converting stats from string to float
+print ("Tabela geral: \n")
 print (FetchStats) #Printing table
+Percentile = TeamStats.rank(pct=True)
+Percentile_Round = Percentile.round(decimals = 2)
+print ("Percentis \n")
+print (Percentile_Round)
 toRound = TeamStats.describe() #Rounding stats
 roundingDF = toRound.round(decimals=2)
+print ("Análise descritiva \n")
 print (roundingDF)
 print ("\n")
 
@@ -51,9 +57,15 @@ for tr in body:
 FetchStats = pd.DataFrame(rowvalues,columns=head_column[0]) #Preparing DataFrame with stats
 TeamStats = FetchStats.drop(FetchStats.columns[0], axis = 1) #Removing Index
 TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']] = TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']].astype(float) #Converting stats from string to float
+print ("Tabela geral OPP: \n")
 print (FetchStats) #Printing table
+Percentile = TeamStats.rank(pct=True)
+Percentile_Round = Percentile.round(decimals = 2)
+print ("Percentis OPP \n")
+print (Percentile_Round)
 toRound = TeamStats.describe() #Rounding stats
 roundingDF = toRound.round(decimals=2)
+print ("Análise descritiva OPP \n")
 print (roundingDF)
 print ("\n")
 
@@ -78,7 +90,14 @@ for tr in body:
 FetchStats = pd.DataFrame(rowvalues,columns=head_column[0]) #Preparing DataFrame with stats
 TeamStats = FetchStats.drop(FetchStats.columns[0], axis = 1) #Removing Index
 TeamStats[['TS%', 'eFG%', 'Total S%', 'ORB%', 'DRB%', 'TRB%', 'AST%', 'TOV%', 'STL%', 'BLK%', 'PPS', 'FIC40', 'ORtg', 'DRtg', 'eDiff', 'Poss', 'Pace']] = TeamStats[['TS%', 'eFG%', 'Total S%', 'ORB%', 'DRB%', 'TRB%', 'AST%', 'TOV%', 'STL%', 'BLK%', 'PPS', 'FIC40', 'ORtg', 'DRtg', 'eDiff', 'Poss', 'Pace']].astype(float) #Converting stats from string to float
+print ("Tabela geral Advanced Stats: \n")
 print (FetchStats) #Printing table
+Percentile = TeamStats.rank(pct=True)
+Percentile_Round = Percentile.round(decimals = 2)
+print ("Percentis Advanced Stats \n")
+print (Percentile_Round)
 toRound = TeamStats.describe() #Rounding stats
 roundingDF = toRound.round(decimals=2)
+print ("Análise descritiva Advanced Stats \n")
 print (roundingDF)
+print ("\n")
