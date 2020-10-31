@@ -27,8 +27,19 @@ Colunas = ['Attendance','Top Team Scorer','Goalkeeper','Notes']
 FetchStatsColumns = FetchStats
 FetchStatsColumns = FetchStats.drop(FetchStats.columns[[15,16, 17,18]], axis = 1) #Removing Index
 FetchStatsColumns[['MP', 'W', 'D', 'L', 'GF', 'GA', 'GDiff', 'Pts', 'xG', 'xGA', 'xGDiff', 'xGDiff/90']] = FetchStatsColumns[['MP', 'W', 'D', 'L', 'GF', 'GA', 'GDiff', 'Pts', 'xG', 'xGA', 'xGDiff', 'xGDiff/90']].astype(float) #Converting stats from string to float
+AveragePG = FetchStatsColumns.copy()
+AveragePG[['W', 'D', 'L', 'GF', 'GA', 'GDiff', 'Pts', 'xG', 'xGA']] = AveragePG[['W', 'D', 'L', 'GF', 'GA', 'GDiff', 'Pts', 'xG', 'xGA']].div(AveragePG['MP'].values, axis = 0)
+AveragePG = AveragePG.drop(AveragePG.columns[12], axis = 1)
+AveragePGRound = AveragePG.round(decimals=2)
+print ("Tabela geral \n")
 print (FetchStatsColumns)
-toRound = FetchStatsColumns.describe() #Rounding stats
+print ("Tabela média por jogos jogados \n")
+print (AveragePGRound)
+Percentile = AveragePGRound.rank(pct=True)
+Percentile_Round = Percentile.round(decimals = 2)
+print ("Percentis Advanced Stats \n")
+print (Percentile_Round)
+toRound = AveragePGRound.describe() #Rounding stats
 roundingDF = toRound.round(decimals=2)
+print ("Análise descritiva \n")
 print (roundingDF)
-print ("\n")
