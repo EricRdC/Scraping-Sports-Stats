@@ -1,13 +1,24 @@
+import urllib.request
+from bs4 import BeautifulSoup #Initializing libraries
+import requests
+import csv
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
 def print_menu():
     print("1. EuroLeague.") 
     print("2. EuroCup.") 
     print("3. NBB.") 
-    print("4. CBA.") 
+    print("4. NBA.") 
     print("5. EPL.") 
     print("6. Italy Serie A.") 
     print("7. Bundesliga.") 
     print("8. NCAAF.") 
-    print("9. NFL.") 
+    print("9. NFL.")
+    print ("10. Player Analyzer.") 
     print("0. Exit.") 
 loop = True
 while loop:
@@ -118,11 +129,6 @@ while loop:
         print (roundingDF)
         print ("\n")
     elif selection == '2': 
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         url = "https://basketball.realgm.com/international/league/2/Eurocup/team-stats/2021/Averages" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
@@ -222,11 +228,6 @@ while loop:
         print (roundingDF)
         print ("\n")
     elif selection == '3':
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         url = "https://basketball.realgm.com/international/league/59/Brazilian-NBB/team-stats" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
@@ -326,12 +327,7 @@ while loop:
         print (roundingDF)
         print ("\n")
     elif selection == '4':
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
-        url = "https://basketball.realgm.com/international/league/40/Chinese-CBA/team-stats" #URL with Team Stats
+        url = "https://sports.yahoo.com/nba/stats/team/?sortStatId=POINTS_PER_GAME&selectedTable=0" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
         table=soup.find_all('table',class_='tablesaw tablesaw-swipe') #Finding specific table
@@ -351,7 +347,7 @@ while loop:
             rowvalues.append(row)
         FetchStats = pd.DataFrame(rowvalues,columns=head_column[0]) #Preparing DataFrame with stats
         TeamStats = FetchStats.drop(FetchStats.columns[0], axis = 1) #Removing Index
-        TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']] = TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']].astype(float) #Converting stats from string to float
+        TeamStats[['FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OR', 'DR', 'Reb', 'Ast', 'TO', 'Stl', 'Blk', 'PF', 'Pts']] = TeamStats[['FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OR', 'DR', 'Reb', 'Ast', 'TO', 'Stl', 'Blk', 'PF', 'Pts']].astype(float) #Converting stats from string to float
         print ("Tabela geral: \n")
         print (FetchStats) #Printing table
         Percentile = TeamStats.rank(pct=True)
@@ -364,7 +360,7 @@ while loop:
         print (roundingDF)
         print ("\n")
 
-        url = "https://basketball.realgm.com/international/league/40/Chinese-CBA/team-stats/2021/Averages/Opponent_Totals" #URL with Team Stats
+        url = "https://sports.yahoo.com/nba/stats/team/?sortStatId=POINTS_PER_GAME&selectedTable=1" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
         table=soup.find_all('table',class_='tablesaw tablesaw-swipe') #Finding specific table
@@ -384,7 +380,7 @@ while loop:
             rowvalues.append(row)
         FetchStats = pd.DataFrame(rowvalues,columns=head_column[0]) #Preparing DataFrame with stats
         TeamStats = FetchStats.drop(FetchStats.columns[0], axis = 1) #Removing Index
-        TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']] = TeamStats[['GP', 'MPG', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'TOV', 'PF', 'ORB', 'DRB', 'RPG', 'APG', 'SPG', 'BPG', 'PPG']].astype(float) #Converting stats from string to float
+        TeamStats[['FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OR', 'DR', 'Reb', 'Ast', 'TO', 'Stl', 'Blk', 'PF', 'Pts']] = TeamStats[['FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA', 'FT%', 'OR', 'DR', 'Reb', 'Ast', 'TO', 'Stl', 'Blk', 'PF', 'Pts']].astype(float) #Converting stats from string to float
         print ("Tabela geral OPP: \n")
         print (FetchStats) #Printing table
         Percentile = TeamStats.rank(pct=True)
@@ -396,45 +392,12 @@ while loop:
         print ("Análise descritiva OPP \n")
         print (roundingDF)
         print ("\n")
-
-        url = "https://basketball.realgm.com/international/league/40/Chinese-CBA/team-stats/2021/Advanced_Stats/Opponent_Totals" #URL with Team Stats
-        page = urllib.request.urlopen(url) #Requesting info
-        soup = BeautifulSoup(page, 'html.parser')
-        table=soup.find_all('table',class_='tablesaw tablesaw-swipe') #Finding specific table
-        thead = soup.table.find('thead')
-        head = thead.find_all('tr')
-        tbody = soup.table.find('tbody')
-        body = tbody.find_all('tr')
-        head_column = []
-        rowvalues = []
-        for tr in head:
-            td = tr.find_all(['th', 'td'])
-            row = [i.text for i in td]
-            head_column.append(row)
-        for tr in body:
-            td = tr.find_all(['th', 'td'])
-            row = [i.text for i in td]
-            rowvalues.append(row)
-        FetchStats = pd.DataFrame(rowvalues,columns=head_column[0]) #Preparing DataFrame with stats
-        TeamStats = FetchStats.drop(FetchStats.columns[0], axis = 1) #Removing Index
-        TeamStats[['TS%', 'eFG%', 'Total S%', 'ORB%', 'DRB%', 'TRB%', 'AST%', 'TOV%', 'STL%', 'BLK%', 'PPS', 'FIC40', 'ORtg', 'DRtg', 'eDiff', 'Poss', 'Pace']] = TeamStats[['TS%', 'eFG%', 'Total S%', 'ORB%', 'DRB%', 'TRB%', 'AST%', 'TOV%', 'STL%', 'BLK%', 'PPS', 'FIC40', 'ORtg', 'DRtg', 'eDiff', 'Poss', 'Pace']].astype(float) #Converting stats from string to float
-        print ("Tabela geral Advanced Stats: \n")
-        print (FetchStats) #Printing table
-        Percentile = TeamStats.rank(pct=True)
-        Percentile_Round = Percentile.round(decimals = 2)
-        print ("Percentis Advanced Stats \n")
-        print (Percentile_Round)
-        toRound = TeamStats.describe() #Rounding stats
+        df = pd.read_csv("C:\\Users\\eric-\\Documents\\GitHub\\Análises\\Scraping-EuroLeague-Stats\\Advanced Stats NBA.txt")
+        print (df)
+        toRound = df.describe()
         roundingDF = toRound.round(decimals=2)
-        print ("Análise descritiva Advanced Stats \n")
         print (roundingDF)
-        print ("\n")
     elif selection == '5':
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         url = "https://fbref.com/en/comps/9/Premier-League-Stats" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
@@ -476,11 +439,6 @@ while loop:
         print ("Percentis Advanced Stats \n")
         print (Percentile_Round)
     elif selection == '6':
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         url = "https://fbref.com/en/comps/11/Serie-A-Stats" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
@@ -522,11 +480,6 @@ while loop:
         print ("Percentis Advanced Stats \n")
         print (Percentile_Round) 
     elif selection == '7':
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         url = "https://fbref.com/en/comps/20/Bundesliga-Stats" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
@@ -568,11 +521,6 @@ while loop:
         print ("Percentis Advanced Stats \n")
         print (Percentile_Round)
     elif selection == '8':
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         pd.set_option('display.max_rows', None)
         url = "https://www.footballdb.com/college-football/stats/teamstat.html?group=O&cat=T&yr=2020&lg=FBS" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
@@ -604,11 +552,6 @@ while loop:
         RoundingDF = toRound.round(decimals = 2)
         print (RoundingDF)
 
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         url = "https://www.footballdb.com/college-football/stats/teamstat.html?group=D&cat=T&yr=2020&lg=FBS" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
@@ -639,11 +582,6 @@ while loop:
         RoundingDF = toRound.round(decimals = 2)
         print (RoundingDF) 
     elif selection == '9':
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         pd.set_option('display.max_rows', None)
         url = "https://www.footballdb.com/stats/teamstat.html?group=O&cat=T" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
@@ -677,12 +615,6 @@ while loop:
         RoundingDF = toRound.round(decimals = 2)
         print (RoundingDF)
 
-
-        import urllib.request
-        from bs4 import BeautifulSoup #Initializing libraries
-        import requests
-        import csv
-        import pandas as pd
         url = "https://www.footballdb.com/stats/teamstat.html?group=D&cat=T" #URL with Team Stats
         page = urllib.request.urlopen(url) #Requesting info
         soup = BeautifulSoup(page, 'html.parser')
@@ -714,6 +646,52 @@ while loop:
         toRound = FetchStatsColumns.describe()
         RoundingDF = toRound.round(decimals = 2)
         print (RoundingDF) 
+    elif selection == '10':
+        df = pd.read_csv("C:\\Users\\eric-\\Documents\\GitHub\\Análises\\Scraping-EuroLeague-Stats\\Player.txt")
+        toRound = df.describe()
+        roundingDF = toRound.round(decimals=2)
+        print (roundingDF)
+        cat = input("PTS, TRB ou AST?")
+        plt.scatter(df.G, df[cat])
+        plt.show()
+        df.boxplot(column=[cat])
+        plt.show()
+        y = df[cat]
+        x = df.G
+        x = sm.add_constant(x)
+        model = sm.OLS(y, x).fit()
+        print(model.summary())
+        fig = plt.figure(figsize=(12,8))
+        fig = sm.graphics.plot_regress_exog(model, 'G', fig=fig)
+        res = model.resid
+        fig = sm.qqplot(res, fit=True, line="45")
+        plt.show()
+        
+        
+        teste = df.loc[:, ['G', cat]]
+        X = teste.iloc[:, :-1].values
+        y = teste.iloc[:, 1].values
+        from sklearn.model_selection import train_test_split
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+        from sklearn.linear_model import LinearRegression
+        regressor = LinearRegression()
+        regressor.fit(X_train, y_train)
+        print(regressor.intercept_)
+        print(regressor.coef_)
+        y_pred = regressor.predict(X_test)
+        df = pd.DataFrame({'Actual': y_test, 'Predicted': y_pred})
+        print(df)
+        from sklearn import metrics
+        print('Mean Absolute Error:', metrics.mean_absolute_error(y_test, y_pred))
+        print('Mean Squared Error:', metrics.mean_squared_error(y_test, y_pred))
+        print('Root Mean Squared Error:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        teste1 = regressor.intercept_
+        teste2 = regressor.coef_
+        teste1 = float(teste1)
+        teste2 = float(teste2)
+        Xnew = [[teste1], [teste2]]
+        ynew = regressor.predict(Xnew)
+        print (ynew[0])
     elif selection == '0': 
       break
     else: 
